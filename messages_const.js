@@ -2,6 +2,7 @@ module.exports = {
     user_not_found : "user not found",
     user_found: "user found",
     insert_key_tag:"insert key tag",
+    next_tag:"next tag",
     key_approved:"key approved",
     key_not_approved:"key not approved",
     any_key:"any kay",
