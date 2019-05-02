@@ -72,7 +72,7 @@ void setup()
   lcd.setCursor(0, 2);
   lcd.write("            ");
 
-  //ethernet
+  //ethernet initialization
   delay(2000);
   // start the Ethernet connection and the server:
   if (Ethernet.begin(mac) == 0)
@@ -183,6 +183,9 @@ void loop()
 
   delay(2000);
 }
+
+/*-------- other functions ----------*/
+
 
 string getTimeAsString(){
   string result;
