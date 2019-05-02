@@ -100,6 +100,7 @@ void loop()
   lcd.clear();
   lcd.write("Read NFC tag");
 
+  //check 13.5 MHz tag is present
   if(nfc.tagPresent()){
     NfcTag tag = nfc.read();
     String tagID = tag.getUidString();
@@ -110,6 +111,7 @@ void loop()
     Serial.println(copy);
   }
 
+  //check 125 kHZ tag is present
   if(copy==Null && reader125.tagPresent() ){
     copy = reader125.read();    
   }
@@ -156,10 +158,6 @@ void loop()
       {
         delay(1);
       }
-      /*else{
-      lcd.clear();
-      lcd.write("con error");  
-      }*/
     }
     if (!client.connected())
     {
