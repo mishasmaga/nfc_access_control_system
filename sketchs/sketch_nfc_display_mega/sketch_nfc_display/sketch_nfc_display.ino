@@ -10,6 +10,11 @@
 #include <PN532.h>
 #include <NfcAdapter.h>
 
+//time synhronization
+#include <Time.h>  
+#include <Wire.h>  
+#include <DS3132.h>
+
 //ethernet
 #include <SPI.h>
 #include <Ethernet.h>
@@ -91,6 +96,15 @@ void setup()
     Serial.print("  DHCP assigned IP ");
     Serial.println(Ethernet.localIP());
   }
+
+  //time synchronization inits
+  setSyncProvider(RTC.get);   // the function to get the time from the RTC
+  if(timeStatus()!= timeSet) 
+     Serial.println("Unable to sync with the RTC");
+  else
+     Serial.println("RTC has set the system time");      
+
+
   Serial.print("setup end");
   delay(1000);
 }
@@ -166,4 +180,30 @@ void loop()
   }
 
   delay(2000);
+}
+
+string getTimeAsString(){
+  string result;
+    if (timeStatus() == timeSet) {
+    //date 
+    result += day(); // day
+    result += " " + month(); //month
+    result += " " + year(); //year
+    //separator
+    result +=" ";
+    //time  
+    result += hour(); //hours
+    result += printDigits(minute()) //minutes
+    result += printDigits(second()) //seconds    
+  }
+  return result 
+}
+
+// utility function for digital clock display: prints preceding colon and leading 0
+string printDigits(int digits){  
+  string result = ":";
+  if(digits < 10)  result +="0";
+  result += digits;
+
+  return result;
 }
