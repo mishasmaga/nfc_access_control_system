@@ -35,7 +35,7 @@ byte rdm6300::read() {
       if (_rx_data[0] == STX && _rx_data[13] == ETX) { // пакет починається з STX і закінчується з ETX
         byte calc_checksum = 0;
         for (int i = 0; i < 6; i++) { // розраховуємо  контрольну суму
-          calc_checksum ^= ascii_char_to_num(_rx_data[i*2+1]) * 16 + ascii_char_to_num(_rx_data[i*2+2]);
+          calc_checksum ^= _ascii_char_to_num(_rx_data[i*2+1]) * 16 + _ascii_char_to_num(_rx_data[i*2+2]);
         }
         //формуємо результат
         if (calc_checksum == 0) {
@@ -55,7 +55,7 @@ rdm6300::rdm6300(byte pin1, byte pin2) {
 }
 
 // пертворення символу в 16-вій системі числення у байт з допомогою ASCII таблиці (https://ru.wikipedia.org/wiki/ASCII)
-byte rdm6300::ascii_char_to_num(byte a) {
+byte rdm6300::_ascii_char_to_num(byte a) {
   a -= '0'; // 0..9
   if (a > 9) a -= 7; // A..F
   return a;
