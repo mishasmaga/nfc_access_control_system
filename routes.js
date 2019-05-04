@@ -4,8 +4,9 @@ var responseMessages = require('./messages_const');
 module.exports = function (app, db) {
   app.get('/check_tag/:id', async (req, res) => {
 
-    const id = req.params.id;
-
+    const input = req.params.id;
+    const id = string.split(input,"_")[0];
+    const date = string.split(input, "_")[1];
     var dbo = db.db("testdb1");
     var userCollection = dbo.collection("users");
     var keysCollection = dbo.collection("keys");
@@ -29,7 +30,6 @@ module.exports = function (app, db) {
               res.send(convertToArduinoMessage(responseMessages.any_key));
             } else {
               //sign history record
-              var date = (new Date()).toLocaleString();
               await historyCollection.updateOne({ _id: historyRecord._id }, { $set: { date_start: date, controller1: user._id, intransaction: false } }
               );
 
@@ -43,7 +43,6 @@ module.exports = function (app, db) {
             if ((historyRecord.keys2 != undefined && historyRecord.keys2 != null)
               || keysArrayIsEqual(historyRecord.keys1, historyRecord.keys2)) {
               //sign and close trans
-              var date = (new Date()).toLocaleString();
               await historyCollection.updateOne({ _id: historyRecord._id }, { $set: { date_end: date, controller2: user._id, intransaction: false } });
 
               res.send(convertToArduinoMessage(responseMessages.done));
